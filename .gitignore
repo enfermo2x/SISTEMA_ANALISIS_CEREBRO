@@ -1,0 +1,30 @@
+# Dataset
+Training/
+Testing/
+
+# Models
+models/*.h5
+models/*.keras
+models/*.png
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Environment
+.env
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
