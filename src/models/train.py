@@ -2,6 +2,15 @@ import os
 import tensorflow as tf
 from src.utils.config import MODELS_DIR, EPOCHS, BATCH_SIZE, LEARNING_RATE
 
+class EarlyStoppingMessage(tf.keras.callbacks.EarlyStopping):
+    def on_train_end(self, logs=None):
+        if self.stopped_epoch > 0:
+            print(f"\n✅ Entrenamiento detenido en época {self.stopped_epoch + 1}: "
+                  f"val_accuracy no mejoró por {self.patience} épocas consecutivas.")
+            print(f"   Mejor val_accuracy: {self.best:.4f}")
+            print(f"   El modelo guardado en models/ tiene los mejores pesos encontrados.")
+        super().on_train_end(logs)
+
 def train_model(model, train_ds, val_ds, epochs=EPOCHS, train_size=None):
     if train_size is None:
         train_size = BATCH_SIZE * 10
@@ -33,18 +42,11 @@ def train_model(model, train_ds, val_ds, epochs=EPOCHS, train_size=None):
             mode='max',
             verbose=1
         ),
-        tf.keras.callbacks.EarlyStopping(
+        EarlyStoppingMessage(
             monitor='val_accuracy',
             patience=20,
             restore_best_weights=True,
             min_delta=0.005,
-            verbose=1
-        ),
-        tf.keras.callbacks.ReduceLROnPlateau(
-            monitor='val_loss',
-            factor=0.5,
-            patience=5,
-            min_lr=1e-6,
             verbose=1
         )
     ]
