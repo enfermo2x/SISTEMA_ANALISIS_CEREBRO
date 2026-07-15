@@ -3,8 +3,12 @@ from src.utils.config import IMG_SIZE, BATCH_SIZE, SEED
 
 def augment_image(x, y):
     x = tf.image.random_flip_left_right(x, seed=SEED)
-    x = tf.image.random_brightness(x, max_delta=0.05, seed=SEED)
-    x = tf.image.random_contrast(x, lower=0.95, upper=1.05, seed=SEED)
+    x = tf.image.random_flip_up_down(x, seed=SEED)
+    x = tf.image.random_brightness(x, max_delta=0.1, seed=SEED)
+    x = tf.image.random_contrast(x, lower=0.9, upper=1.1, seed=SEED)
+    noise = tf.random.normal(tf.shape(x), mean=0.0, stddev=0.02, seed=SEED)
+    x = x + noise
+    x = tf.clip_by_value(x, 0.0, 1.0)
     return x, y
 
 def create_train_dataset(X_train, y_train, batch_size=BATCH_SIZE):
