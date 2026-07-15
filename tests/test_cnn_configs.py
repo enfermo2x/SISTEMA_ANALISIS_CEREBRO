@@ -14,7 +14,7 @@ AUTOTUNE = tf.data.AUTOTUNE
 def build_arch_v0():
     """Original architecture (baseline)"""
     model = tf.keras.Sequential([
-        tf.keras.layers.Input(shape=(*IMG_SIZE, 3)),
+        tf.keras.layers.Input(shape=(*IMG_SIZE, 1)),
         tf.keras.layers.Conv2D(32, 3, activation='relu', padding='same'),
         tf.keras.layers.BatchNormalization(),
         tf.keras.layers.MaxPooling2D(2),
@@ -41,7 +41,7 @@ def build_arch_v0():
 def build_arch_v1():
     """V1: 2 convs per block, more filters, less dropout"""
     model = tf.keras.Sequential([
-        tf.keras.layers.Input(shape=(*IMG_SIZE, 3)),
+        tf.keras.layers.Input(shape=(*IMG_SIZE, 1)),
         tf.keras.layers.Conv2D(32, 3, activation='relu', padding='same'),
         tf.keras.layers.Conv2D(32, 3, activation='relu', padding='same'),
         tf.keras.layers.BatchNormalization(),
@@ -71,7 +71,7 @@ def build_arch_v1():
 def build_arch_v2():
     """V2: Higher LR, simpler arch, Flatten"""
     model = tf.keras.Sequential([
-        tf.keras.layers.Input(shape=(*IMG_SIZE, 3)),
+        tf.keras.layers.Input(shape=(*IMG_SIZE, 1)),
         tf.keras.layers.Conv2D(64, 3, activation='relu', padding='same'),
         tf.keras.layers.BatchNormalization(),
         tf.keras.layers.MaxPooling2D(2),
@@ -93,7 +93,7 @@ def build_arch_v2():
 def build_arch_v3():
     """V3: He init, kernel_regularizer=l2, more conservative"""
     model = tf.keras.Sequential([
-        tf.keras.layers.Input(shape=(*IMG_SIZE, 3)),
+        tf.keras.layers.Input(shape=(*IMG_SIZE, 1)),
         tf.keras.layers.Conv2D(32, 3, activation='relu', padding='same',
                                 kernel_initializer='he_normal'),
         tf.keras.layers.Conv2D(32, 3, activation='relu', padding='same',
@@ -128,7 +128,7 @@ def build_arch_v3():
 def build_arch_v4():
     """V4: No augmentation test (raw data only) to isolate the issue"""
     model = tf.keras.Sequential([
-        tf.keras.layers.Input(shape=(*IMG_SIZE, 3)),
+        tf.keras.layers.Input(shape=(*IMG_SIZE, 1)),
         tf.keras.layers.Conv2D(32, 3, activation='relu', padding='same'),
         tf.keras.layers.BatchNormalization(),
         tf.keras.layers.MaxPooling2D(2),
@@ -153,7 +153,7 @@ def build_arch_v4():
 def build_arch_v5():
     """V5: SGD + Momentum (classic, often works well for CNNs from scratch)"""
     model = tf.keras.Sequential([
-        tf.keras.layers.Input(shape=(*IMG_SIZE, 3)),
+        tf.keras.layers.Input(shape=(*IMG_SIZE, 1)),
         tf.keras.layers.Conv2D(32, 3, activation='relu', padding='same'),
         tf.keras.layers.BatchNormalization(),
         tf.keras.layers.Conv2D(32, 3, activation='relu', padding='same'),
@@ -183,7 +183,7 @@ def build_arch_v5():
 def build_arch_v6():
     """V6: AdamW with weight decay, 2 conv per block, higher capacity"""
     model = tf.keras.Sequential([
-        tf.keras.layers.Input(shape=(*IMG_SIZE, 3)),
+        tf.keras.layers.Input(shape=(*IMG_SIZE, 1)),
         tf.keras.layers.Conv2D(64, 3, activation='relu', padding='same'),
         tf.keras.layers.Conv2D(64, 3, activation='relu', padding='same'),
         tf.keras.layers.BatchNormalization(),
