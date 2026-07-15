@@ -3,9 +3,9 @@ Training/
 Testing/
 
 # Models
-models/*.h5
-models/*.keras
 models/*.png
+models/resnet50_finetuned.h5
+models/resnet50_finetuned.keras
 
 # Python cache
 __pycache__/

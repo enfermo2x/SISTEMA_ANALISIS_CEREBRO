@@ -7,7 +7,7 @@
 
 Este documento contiene el análisis de los requerimientos del proyecto y el plan detallado de ejecución, dividido por roles y por módulos técnicos, para llevarlo a un resultado completo (100%).
 
-**Grupo**: 3 integrantes
+**Grupo**: 4 integrantes
 **Estado**: Fase 1 y Fase 2 completadas
 **Próximo paso**: Inicio de Fase 3 (CNN propia)
 
@@ -32,31 +32,31 @@ Enlace: https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset
 
 ---
 
-## II. DISTRIBUCIÓN DE ROLES Y FASES
+## II. INTEGRANTES Y DISTRIBUCIÓN DE ROLES
 
-### Rol 1 — Data Scientist / Deep Learning Lead (70%)
+### Equipo
 
-| Fase | Entregable | Peso |
-|---|---|---|
-| 1. Exploración del dataset | Conteo por clase, balance, resolución, calidad | 10% |
-| 2. Preprocesamiento | Resize, normalización, escala de grises, split, Data Augmentation | 15% |
-| 3. CNN propia | Red convolucional multiclase entrenada desde cero | 20% |
-| 4. Transfer Learning | Comparación con ResNet50 (o MobileNetV2/EfficientNetB0) | 15% |
-| 5. Evaluación | Accuracy, precision, recall, F1 por clase, matriz de confusión, curvas | 10% |
+| # | Rol | Integrante | Módulos | Peso |
+|---|-----|-----------|---------|------|
+| 1 | CNN propia | VASQUEZ ROJAS DAVY FABRICIO | Módulo 3 | 25% |
+| 2 | Transfer Learning | VELASQUEZ DIAZ JHORDYN HUMBERTO | Módulo 4 | 20% |
+| 3 | Evaluación + API + Despliegue | ZUTA CUEVA EDUARDO JONATAN | Módulo 5 + Módulo 6 | 30% |
+| 4 | Frontend + Documentación | TORREJON LOLOC JHORDY RIVALDO | Módulo 7 + Módulo 8 | 25% |
 
-### Rol 2 — Backend / DevOps Engineer (20%)
+### Secuencia de ejecución (estricta — en orden)
 
-| Fase | Entregable | Peso |
-|---|---|---|
-| 6. API + Despliegue | Flask con endpoint `/predict`, contenedorizado (Docker) o como servicio (systemd) | 20% |
+| Paso | Rol | Módulo | Depende de |
+|------|-----|--------|------------|
+| 1 | Rol 1 — Fabricio | Módulo 3 — CNN propia | Módulos 1 y 2 (completados) |
+| 2 | Rol 2 — Jhordyn | Módulo 4 — Transfer Learning | Módulos 2 y 3 |
+| 3 | Rol 3 — Eduardo | Módulo 5 — Evaluación | Módulos 3 y 4 |
+| 4 | Rol 3 — Eduardo | Módulo 6 — API + Despliegue | Módulo 5 |
+| 5 | Rol 4 — Jhordy | Módulo 7 — Frontend + QA | Módulo 6 |
+| 6 | Rol 4 — Jhordy | Módulo 8 — Documentación | Módulos 1-7 |
 
-### Rol 3 — Frontend Engineer / QA (10%)
+> ⚠️ **Regla de oro**: Cada rol debe esperar a que el rol anterior termine y suba su cambio a GitHub antes de empezar. No saltarse pasos. Backend (Módulo 6) no puede empezar sin un modelo evaluado del Módulo 5. Frontend (Módulo 7) puede maquetar en paralelo, pero las pruebas E2E dependen de que la API esté corriendo.
 
-| Fase | Entregable | Peso |
-|---|---|---|
-| 7. Frontend | Carga de imagen, consumo de `/predict`, visualización de resultado, QA end-to-end | 10% |
-
-### Preguntas de análisis (transversal, sin peso individual asignado — responsabilidad conjunta al cierre)
+### Preguntas de análisis (transversal, sin peso individual — responsabilidad de Rol 3 al cierre)
 9 preguntas conceptuales sobre CNN, Data Augmentation, desbalance de clases, overfitting, Softmax, recall en contexto médico, robustez, Docker vs systemd, y ética.
 
 ---
@@ -234,20 +234,31 @@ brain-tumor-cnn/
 
 ## V. CRONOGRAMA / CHECKLIST GENERAL
 
-- [x] Módulo 1 — EDA
-- [x] Módulo 2 — Preprocesamiento y Augmentation
-- [ ] Módulo 3 — CNN propia
-- [ ] Módulo 4 — Transfer Learning
-- [ ] Módulo 5 — Evaluación y selección del modelo final
-- [ ] Módulo 6 — API + despliegue (Docker o systemd)
-- [ ] Módulo 7 — Frontend + QA end-to-end
-- [ ] Módulo 8 — Respuestas de análisis + documentación + repo en GitHub
-
-**Regla de oro**: Backend (Módulo 6) no puede empezar la integración real sin un modelo entregado por el Módulo 5. Frontend (Módulo 7) puede maquetar en paralelo, pero las pruebas E2E dependen de que la API esté corriendo.
+- [x] Módulo 1 — EDA (completado)
+- [x] Módulo 2 — Preprocesamiento y Augmentation (completado)
+- [ ] Módulo 3 — CNN propia (Rol 1 — Fabricio)
+- [ ] Módulo 4 — Transfer Learning (Rol 2 — Jhordyn)
+- [ ] Módulo 5 — Evaluación (Rol 3 — Eduardo)
+- [ ] Módulo 6 — API + despliegue (Rol 3 — Eduardo)
+- [ ] Módulo 7 — Frontend + QA (Rol 4 — Jhordy)
+- [ ] Módulo 8 — Documentación + respuestas (Rol 4 — Jhordy)
 
 ---
 
 ## VI. RESUMEN EJECUTIVO
+
+### Estado actual (14-07-2026)
+
+| Módulo | Estado | Responsable |
+|--------|--------|-------------|
+| 1 — EDA | ✅ Completado | — |
+| 2 — Preprocesamiento | ✅ Completado | — |
+| 3 — CNN propia | ⬜ Pendiente de ejecutar | Rol 1 — Fabricio |
+| 4 — Transfer Learning | ⬜ Pendiente de ejecutar | Rol 2 — Jhordyn |
+| 5 — Evaluación | ⬜ Pendiente de ejecutar | Rol 3 — Eduardo |
+| 6 — API + Despliegue | ⬜ No iniciado | Rol 3 — Eduardo |
+| 7 — Frontend + QA | ⬜ No iniciado | Rol 4 — Jhordy |
+| 8 — Documentación | ⬜ No iniciado | Rol 4 — Jhordy |
 
 ### Estado objetivo (100%)
 ✓ Dataset explorado y documentado
@@ -258,14 +269,6 @@ brain-tumor-cnn/
 ✓ Frontend funcional con manejo de errores y aviso médico visible
 ✓ Preguntas de análisis respondidas
 ✓ Repositorio en GitHub completo
-
-### Distribución de peso final
-
-| Rol | Fases | Peso total |
-|---|---|---|
-| Data Scientist / DL Lead | 1-5 | 70% |
-| Backend / DevOps | 6 | 20% |
-| Frontend / QA | 7 | 10% |
 
 ---
 
@@ -346,21 +349,38 @@ Luego repetir Paso 1.
 
 ---
 
-## IX. PRÓXIMOS PASOS
+## IX. FLUJO DE TRABAJO CON GIT
 
-### AHORA
-1. Ejecutar test rápido: `python tests/test_cnn_configs.py --mode fast`
-2. Si v7 (o alguna variante) pasa el umbral, ejecutar el notebook completo
-3. Continuar con Módulo 4 — Transfer Learning (comparación con ResNet50)
+Cada integrante sigue este flujo al iniciar su módulo:
 
-### DESPUÉS
-1. Avanzar Módulos 2 a 5 (Data Science) en paralelo con el diseño de la API (Módulo 6) usando un modelo dummy
-2. Integrar el modelo final entrenado en la API (Módulo 6)
-3. Conectar el Frontend (Módulo 7) a la API real y correr QA end-to-end
-4. Cerrar con Módulo 8: respuestas de análisis, documentación y entrega en GitHub
+```bash
+git checkout main
+git pull origin main
+git checkout -b feature/<nombre-modulo>
+# Ej: feature/cnn-propia, feature/transfer-learning, feature/api, feature/frontend
+```
+
+Al terminar:
+```bash
+git add .
+git commit -m "Módulo X: <descripción breve>"
+git push origin feature/<nombre-modulo>
+```
+
+Luego crear Pull Request a `main` en GitHub y avisar al siguiente rol.
+
+## X. PRÓXIMOS PASOS
+
+### Orden de ejecución (estricto)
+1. **Rol 1 — Fabricio**: Ejecutar `notebooks/03_cnn_propia.ipynb` (Run All). Si hay error, corregir con opencode.
+2. **Rol 2 — Jhordyn**: Ejecutar `notebooks/04_transfer_learning.ipynb` (Run All). Corregir errores si es necesario.
+3. **Rol 3 — Eduardo**: Ejecutar `notebooks/05_evaluacion.ipynb` (Run All). Luego crear API en `api/`.
+4. **Rol 4 — Jhordy**: Crear Frontend en `frontend/`. Luego documentación en `docs/`.
+
+> ⚠️ **Importante**: Los notebooks deben ejecutarse con "Run All" sin generar scripts adicionales. Si algo falla, el integrante debe pedir ayuda a opencode para corregir el error y volver a intentar.
 
 ---
 
-**Documento generado**: 10-07-2026
-**Versión**: 2.0 (con diagnóstico y mejoras de CNN propia)
-**Estado**: Módulo 3 en proceso — ejecutar test para validar
+**Documento generado**: 14-07-2026
+**Versión**: 3.0 (con 4 roles, nombres y flujo git)
+**Estado**: Módulos 1-2 completos — Módulo 3 pendiente (Rol 1 — Fabricio)
