@@ -34,7 +34,7 @@ def load_and_preprocess_image(path, target_size=IMG_SIZE):
         return None
     img = cv2.resize(img, target_size)
     img = img.astype(np.float32) / 255.0
-    img = np.expand_dims(img, axis=-1)
+    img = np.stack([img, img, img], axis=-1)
     return img
 
 def load_dataset(data_dir, target_size=IMG_SIZE):
