@@ -1,0 +1,18 @@
+[Unit]
+Description=Brain Tumor Classification API
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/braintumor-api
+Environment="PATH=/opt/braintumor-api/venv/bin"
+ExecStart=/opt/braintumor-api/venv/bin/gunicorn --bind 0.0.0.0:5000 --workers 2 api.app:app
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
