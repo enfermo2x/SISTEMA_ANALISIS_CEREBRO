@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrainTumor Detector - CNN</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <circle cx="20" cy="20" r="18" stroke="#4fc3f7" stroke-width="2" fill="none"/>
+                    <circle cx="20" cy="20" r="10" stroke="#4fc3f7" stroke-width="1.5" fill="none" stroke-dasharray="4 2"/>
+                    <circle cx="20" cy="20" r="3" fill="#4fc3f7"/>
+                    <line x1="20" y1="2" x2="20" y2="8" stroke="#4fc3f7" stroke-width="1.5"/>
+                    <line x1="20" y1="32" x2="20" y2="38" stroke="#4fc3f7" stroke-width="1.5"/>
+                    <line x1="2" y1="20" x2="8" y2="20" stroke="#4fc3f7" stroke-width="1.5"/>
+                    <line x1="32" y1="20" x2="38" y2="20" stroke="#4fc3f7" stroke-width="1.5"/>
+                </svg>
+            </div>
+            <h1>BrainTumor Detector</h1>
+            <p class="subtitle">Sistema de detección de tumores cerebrales en MRI usando CNN</p>
+        </header>
+
+        <main>
+            <div class="upload-section">
+                <div class="drop-zone" id="dropZone">
+                    <div class="drop-zone-content" id="dropZoneContent">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#4fc3f7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                        <p class="drop-text">Arrastra una imagen MRI aquí</p>
+                        <p class="drop-hint">o haz clic para seleccionar</p>
+                        <span class="drop-formats">Soporta JPG, PNG, JPEG</span>
+                    </div>
+                    <div class="preview-container" id="previewContainer" style="display:none">
+                        <img id="previewImage" alt="Vista previa de la MRI">
+                        <button class="btn-change" id="btnChange">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                            Cambiar imagen
+                        </button>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/jpeg,image/png,image/jpg" hidden>
+                </div>
+
+                <button class="btn-analyze" id="btnAnalyze" disabled>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    Analizar imagen
+                </button>
+            </div>
+
+            <div class="loading" id="loading" style="display:none">
+                <div class="spinner"></div>
+                <p>Analizando imagen con la CNN...</p>
+            </div>
+
+            <div class="result-section" id="resultSection" style="display:none">
+                <div class="result-card" id="resultCard">
+                    <div class="result-header">
+                        <span class="result-badge" id="resultBadge">Tumor Detectado</span>
+                        <span class="result-confidence" id="resultConfidence">97.3%</span>
+                    </div>
+                    <div class="result-body">
+                        <div class="result-icon" id="resultIcon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                        </div>
+                        <div class="result-info">
+                            <h3 id="resultTitle">Glioma</h3>
+                            <p class="result-desc" id="resultDesc">Tumor en células gliales del cerebro</p>
+                        </div>
+                    </div>
+                    <div class="result-bar-container">
+                        <div class="result-bar" id="resultBar"></div>
+                    </div>
+                    <div class="result-details" id="resultDetails">
+                        <h4>Probabilidades por clase</h4>
+                        <div class="prob-list" id="probList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="error-section" id="errorSection" style="display:none">
+                <div class="error-card">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef5350" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="15" y1="9" x2="9" y2="15"/>
+                        <line x1="9" y1="9" x2="15" y2="15"/>
+                    </svg>
+                    <p id="errorMessage">Error al procesar la imagen</p>
+                </div>
+            </div>
+
+            <div class="disclaimer">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="16" x2="12" y2="12"/>
+                    <line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+                <p><strong>Aviso importante:</strong> Este sistema es una herramienta de apoyo y segunda opinión. No reemplaza el diagnóstico de un profesional médico. Consulte siempre a un especialista.</p>
+            </div>
+        </main>
+
+        <footer>
+            <p>Proyecto Grupal - Detección de Tumores Cerebrales con CNN</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
