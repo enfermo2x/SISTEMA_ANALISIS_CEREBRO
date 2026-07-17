@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe BrainTumor Detector</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f8fafc; color: #0f172a; line-height: 1.6; padding: 40px 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); padding: 40px; }
+        h1 { font-size: 28px; color: #0369a1; margin-bottom: 8px; }
+        h2 { font-size: 20px; color: #0ea5e9; margin-top: 32px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+        h3 { font-size: 16px; color: #0f172a; margin-top: 20px; margin-bottom: 8px; }
+        p { margin-bottom: 12px; color: #334155; }
+        .meta { color: #64748b; font-size: 14px; margin-bottom: 24px; }
+        table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+        th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
+        th { background: #f1f5f9; font-weight: 600; color: #0f172a; }
+        tr:hover { background: #f8fafc; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .badge-ml { background: #dbeafe; color: #1d4ed8; }
+        .badge-api { background: #fef3c7; color: #b45309; }
+        .badge-front { background: #d1fae5; color: #047857; }
+        .badge-docker { background: #e0e7ff; color: #4338ca; }
+        ul { padding-left: 20px; margin-bottom: 12px; }
+        li { margin-bottom: 6px; color: #334155; }
+        a { color: #0ea5e9; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .footer { margin-top: 32px; padding-top: 20px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 13px; color: #64748b; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Informe del Proyecto</h1>
+    <p class="meta">BrainTumor Detector - Sistema de Deteccion de Tumores Cerebrales en MRI usando CNN</p>
+
+    <h2>Resumen</h2>
+    <p>Sistema completo de clasificacion de imagenes MRI cerebrales en 4 clases: <strong>glioma, meningioma, notumor, pituitary</strong>. El proyecto incluye pipeline de ML (EDA, preprocesamiento, CNN propia, Transfer Learning), API REST para inferencia, frontend interactivo y opciones de despliegue (Docker y systemd).</p>
+
+    <h2>Resultados del Modelo</h2>
+    <table>
+        <tr><th>Metrica</th><th>CNN Propia</th><th>ResNet50</th><th>Ganador</th></tr>
+        <tr><td>Accuracy</td><td><strong>0.7925</strong></td><td>0.5250</td><td>CNN Propia</td></tr>
+        <tr><td>Precision</td><td><strong>0.8221</strong></td><td>0.5736</td><td>CNN Propia</td></tr>
+        <tr><td>Recall</td><td><strong>0.7925</strong></td><td>0.5250</td><td>CNN Propia</td></tr>
+        <tr><td>F1-Score</td><td><strong>0.7880</strong></td><td>0.4946</td><td>CNN Propia</td></tr>
+    </table>
+    <p><strong>Modelo seleccionado:</strong> <code>cnn_custom.keras</code> (CNN propia)</p>
+
+    <h2>Visualizaciones Mejoradas</h2>
+    <ul>
+        <li><a href="mejorada_cnn_confusion_pct.png">Matriz de confusion con porcentajes</a></li>
+        <li><a href="mejorada_radar_metrics.png">Radar chart comparativo</a></li>
+        <li><a href="mejorada_comparativa_barras.png">Barras comparativas</a></li>
+        <li><a href="mejorada_metrics_clase.png">Metricas por clase</a></li>
+        <li><a href="mejorada_distribucion.png">Distribucion de clases</a></li>
+        <li><a href="mejorada_curvas_profesionales.png">Curvas de entrenamiento</a></li>
+    </ul>
+
+    <h2>Componentes del Sistema</h2>
+    <h3><span class="badge badge-ml">ML Pipeline</span></h3>
+    <ul>
+        <li>5 notebooks en <code>notebooks/</code> (EDA, preprocesamiento, CNN, Transfer Learning, Evaluacion)</li>
+        <li>1 notebook adicional: <code>06_visualizaciones_mejoradas.ipynb</code></li>
+        <li>Modelos: <code>models/cnn_custom.keras</code>, <code>models/resnet50_finetuned.keras/</code></li>
+    </ul>
+    <h3><span class="badge badge-api">API</span></h3>
+    <ul>
+        <li><code>POST /predict</code> en Flask (multipart/form-data, campo <code>image</code>)</li>
+        <li>Respuesta: <code>{"tipo_tumor", "probabilidad", "probabilidades"}</code></li>
+        <li>Puerto: 5000</li>
+        <li>Archivos: <code>api/app.py</code>, <code>api/inference.py</code></li>
+    </ul>
+    <h3><span class="badge badge-front">Frontend</span></h3>
+    <ul>
+        <li><code>frontend/index.html</code> - Version original</li>
+        <li><code>frontend/profesional.html</code> - Version mejorada con imagenes decorativas, radar chart y diseno profesional</li>
+        <li>Drag & drop, preview con animacion de escaneo, resultados con codigo de colores</li>
+    </ul>
+    <h3><span class="badge badge-docker">Despliegue</span></h3>
+    <ul>
+        <li><code>Dockerfile</code> - Imagen Linux con Python 3.11 + TensorFlow + gunicorn</li>
+        <li><code>braintumor-api.service</code> - Servicio systemd con reinicio automatico</li>
+        <li>Documentacion en <code>docs/despliegue.md</code></li>
+    </ul>
+
+    <h2>Instrucciones de Uso</h2>
+    <h3>API local</h3>
+    <pre style="background:#f1f5f9;padding:12px;border-radius:8px;font-size:13px;">cd api
+pip install -r requirements.txt
+python app.py
+# En otro terminal:
+curl -X POST -F "image=@ruta/imagen.jpg" http://localhost:5000/predict</pre>
+
+    <h3>Docker</h3>
+    <pre style="background:#f1f5f9;padding:12px;border-radius:8px;font-size:13px;">docker build -t braintumor-api .
+docker run -d --name braintumor-api -p 5000:5000 braintumor-api
+curl -X POST -F "image=@ruta/imagen.jpg" http://localhost:5000/predict</pre>
+
+    <h3>Frontend</h3>
+    <pre style="background:#f1f5f9;padding:12px;border-radius:8px;font-size:13px;">Abrir frontend/profesional.html en el navegador
+(La API debe estar corriendo en localhost:5000)</pre>
+
+    <h2>Equipo</h2>
+    <table>
+        <tr><th>Rol</th><th>Integrante</th><th>Modulos</th></tr>
+        <tr><td>Rol 1</td><td>Fabricio Vasquez</td><td>EDA, Preprocesamiento, CNN propia</td></tr>
+        <tr><td>Rol 2</td><td>Jhordyn Velasquez</td><td>Transfer Learning</td></tr>
+        <tr><td>Rol 3</td><td>Eduardo Zuta</td><td>Evaluacion, API, Despliegue</td></tr>
+        <tr><td>Rol 4</td><td>Jhordy Torrejon</td><td>Frontend, Documentacion</td></tr>
+    </table>
+    <div class="footer">
+        <p>BrainTumor Detector &copy; 2026 - Proyecto Grupal</p>
+    </div>
+</div>
+</body>
+</html>
